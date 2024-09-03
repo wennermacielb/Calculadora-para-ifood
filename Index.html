@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Venda</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            padding-top: 40px; /* Adiciona um espaçamento na parte superior */
+        }
+
+        .calculator {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        .calculator h1 {
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1.1em;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #f1c40f;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .calculate-btn:hover {
+            background-color: #f39c12;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .editable-section {
+            margin-top: 20px;
+        }
+
+        .editable-section input[type="number"] {
+            width: calc(50% - 10px);
+            margin-right: 10px;
+        }
+
+        .info-box {
+            background-color: #ffeb3b;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: left;
+            font-size: 14px;
+            margin-top: 20px; /* Adiciona mais espaço no topo */
+        }
+
+        .info-box strong {
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="calculator">
+        <div class="info-box">
+            <p>Este programa foi criado para ajudar a calcular seu lucro no iFood! Ao vender no iFood, a plataforma cobra uma porcentagem sobre o valor do seu produto. Para garantir que você receba o valor desejado, a calculadora lhe ajudará a ajustar o preço de venda, considerando a porcentagem cobrada pelo iFood e sua margem de lucro.</p>
+            <p>Por exemplo, se você vende um produto a R$12,00 e deseja receber esse valor líquido, considerando que o iFood cobra 23% sobre suas vendas, você deve calcular o valor adicional a ser aplicado no preço final do produto. Utilizando a fórmula:</p>
+            <p><strong>R$12 (Preço do Produto) x 23 (Porcentagem do iFood) ÷ 88 (Porcentagem do Lucro) = R$3,13</strong></p>
+            <p>O valor adicional necessário é R$3,13, o que significa que seu preço de venda final deverá ser R$15,13. Assim, após as taxas do iFood, seu valor líquido será de R$12,00.</p>
+        </div>
+
+        <h1>Calculadora de Venda</h1>
+        
+        <label for="valorNormal">VALOR NORMAL:</label>
+        <input type="number" id="valorNormal" placeholder="Insira o valor normal">
+
+        <label for="ifood">Porcentagem do iFood:</label>
+        <input type="number" id="ifood" placeholder="Insira a porcentagem do iFood">
+
+        <label for="porcentagemLucro">Porcentagem de Lucro:</label>
+        <input type="number" id="porcentagemLucro" placeholder="Insira a porcentagem de lucro">
+
+        <button class="calculate-btn" onclick="calcular()">CALCULAR</button>
+        
+        <div class="result" id="result"></div>
+
+        <div class="editable-section">
+            <label for="editableValorNormal">Valor Normal + Valor da Venda:</label>
+            <div>
+                <input type="number" id="editableValorNormal" placeholder="Valor Normal">
+                <input type="number" id="editableValorVenda" placeholder="Valor da Venda">
+            </div>
+            <div class="result" id="totalResult"></div>
+        </div>
+    </div>
+
+    <script>
+        function calcular() {
+            // Pegando os valores dos inputs
+            const valorNormal = parseFloat(document.getElementById('valorNormal').value);
+            const ifood = parseFloat(document.getElementById('ifood').value);
+            const porcentagemLucro = parseFloat(document.getElementById('porcentagemLucro').value);
+
+            // Fazendo o cálculo: (valorNormal * ifood) / porcentagemLucro
+            const valorVenda = (valorNormal * ifood) / porcentagemLucro;
+
+            // Mostrando o resultado do cálculo principal
+            document.getElementById('result').innerHTML = "Valor para venda: R$ " + valorVenda.toFixed(2);
+
+            // Preenchendo os campos de soma com os valores calculados
+            document.getElementById('editableValorNormal').value = valorNormal;
+            document.getElementById('editableValorVenda').value = valorVenda.toFixed(2);
+
+            // Calculando e exibindo o total da soma inicial
+            calcularSoma();
+        }
+
+        function calcularSoma() {
+            const valorNormal = parseFloat(document.getElementById('editableValorNormal').value);
+            const valorVenda = parseFloat(document.getElementById('editableValorVenda').value);
+
+            const total = valorNormal + valorVenda;
+
+            // Mostrando o resultado da soma dos valores
+            document.getElementById('totalResult').innerHTML = "Total: R$ " + total.toFixed(2);
+        }
+
+        // Atualizando a soma quando os campos são alterados manualmente
+        document.getElementById('editableValorNormal').addEventListener('input', calcularSoma);
+        document.getElementById('editableValorVenda').addEventListener('input', calcularSoma);
+
+    </script>
+
+</body>
+</html>
